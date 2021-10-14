@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    ports:
+      - 13306:3306
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: metabase
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+      MYSQL_ROOT_PASSWORD: pass
+      TZ: 'Asia/Tokyo'
+
+  metabase:
+    container_name: metabase
+    image: metabase/metabase:latest
+    ports:
+      - 3000:3000
+    volumes:
+      - metabase:/metabase.db
+    depends_on:
+      - mysql
+
+volumes:
+  mysql:
+  metabase:
